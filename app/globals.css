@@ -14,14 +14,27 @@
   box-sizing: border-box;
 }
 html {
+  min-height: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: 110px;
+  background: var(--paper);
 }
+
 body {
+  min-height: 100dvh;
   margin: 0;
   background: var(--paper);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  width: 100%;
+  min-height: 100dvh;
+  flex: 1 0 auto;
+  background: var(--paper);
 }
 ::selection {
   background: #dddfc7;
@@ -1049,18 +1062,14 @@ svg.lucide {
   color: var(--muted);
 }
 .page-transition {
-  animation: page-arrive 0.68s var(--ease);
+  min-height: 100%;
+  background: var(--paper);
+  isolation: isolate;
 }
-@keyframes page-arrive {
-  from {
-    opacity: 0.35;
-    translate: 0 16px;
-    filter: blur(2px);
-  }
-  to {
-    opacity: 1;
-    translate: 0 0;
-    filter: blur(0);
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
   }
 }
 @keyframes menu-arrive {
@@ -3972,5 +3981,104 @@ svg.lucide {
     right: -55px;
     bottom: 8px;
     opacity: .35;
+  }
+}
+
+.featured-photo,
+.recipe-card-image {
+  background: #eef0e6;
+}
+
+.route-loading {
+  min-height: 100vh;
+  padding-top: 150px;
+  background: var(--paper);
+}
+
+.route-loading-inner {
+  animation: loading-soft-in 0.25s ease-out both;
+}
+
+.route-loading-kicker,
+.route-loading-title,
+.route-loading-text {
+  position: relative;
+  overflow: hidden;
+  background: #eceee5;
+}
+
+.route-loading-kicker {
+  width: 145px;
+  height: 12px;
+  border-radius: 999px;
+  margin-bottom: 28px;
+}
+
+.route-loading-title {
+  width: min(680px, 85%);
+  height: 54px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.route-loading-title-short {
+  width: min(470px, 65%);
+}
+
+.route-loading-text {
+  width: min(560px, 78%);
+  height: 70px;
+  border-radius: 8px;
+  margin-top: 28px;
+}
+
+.route-loading-kicker::after,
+.route-loading-title::after,
+.route-loading-text::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  animation: route-shimmer 1.35s infinite;
+}
+
+@keyframes loading-soft-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes route-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 767px) {
+  .route-loading {
+    padding-top: 120px;
+  }
+
+  .route-loading-title {
+    height: 42px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-loading-inner,
+  .route-loading-kicker::after,
+  .route-loading-title::after,
+  .route-loading-text::after {
+    animation: none;
   }
 }

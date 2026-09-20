@@ -29,13 +29,14 @@ export default function Recipes() {
       <section className="container">
         <div className="featured-recipe">
           <div className="featured-photo">
-            <Image
-              src={featured.image}
-              alt={featured.imageAlt}
-              fill
-              quality={90}
-              sizes="(max-width:767px) 90vw, 650px"
-            />
+           <Image
+  src={featured.image}
+  alt={featured.imageAlt}
+  fill
+  priority
+  quality={90}
+  sizes="(max-width:767px) 90vw, 650px"
+/>
             <span>EDİTÖRDEN BİR SEÇİM</span>
           </div>
           <div className="featured-copy">
