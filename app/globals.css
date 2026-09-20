@@ -899,6 +899,7 @@ svg.lucide {
   color: white;
 }
 .site-footer {
+  flex-shrink: 0;
   background: #192b20;
   color: #dee3d3;
   padding: 68px 0 25px;
@@ -1062,7 +1063,8 @@ svg.lucide {
   color: var(--muted);
 }
 .page-transition {
-  min-height: 100%;
+  width: 100%;
+  min-height: 100dvh;
   background: var(--paper);
   isolation: isolate;
 }
