@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { Brand } from "@/components/shared/brand";
@@ -112,9 +112,16 @@ export default function Header() {
               );
             })}
           </nav>
-          <Link className="action action-small header-cta" href="/randevu">
-            Randevu Oluştur <ArrowUpRight size={16} />
-          </Link>
+       <div className="header-actions">
+  <Link className="header-client-login" href="/giris">
+    <UserRound size={15} />
+    Danışan Girişi
+  </Link>
+
+  <Link className="action action-small header-cta" href="/randevu">
+    Randevu Oluştur <ArrowUpRight size={16} />
+  </Link>
+</div>
           <button
             ref={trigger}
             type="button"
@@ -162,6 +169,20 @@ export default function Header() {
             </Link>
           ))}
         </nav>
+        <Link
+  href="/giris"
+  className="mobile-client-login"
+  onClick={() => dialog.current?.close()}
+>
+  <UserRound size={18} />
+
+  <span>
+    <small>DANIŞAN ALANI</small>
+    <strong>Danışan Girişi</strong>
+  </span>
+
+  <ArrowUpRight size={17} />
+</Link>
         <Link
           href="/randevu"
           className="action"

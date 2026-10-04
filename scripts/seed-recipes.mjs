@@ -1,0 +1,10 @@
+import { createClient } from "@supabase/supabase-js";
+import { recipes } from "../lib/recipes.ts";
+import { recipeToRow } from "../lib/recipe-mapping.ts";
+const url=process.env.NEXT_PUBLIC_SUPABASE_URL,key=process.env.SUPABASE_SERVICE_ROLE_KEY;
+if(!url||!key)throw new Error("NEXT_PUBLIC_SUPABASE_URL ve SUPABASE_SERVICE_ROLE_KEY gerekli. .env.local dosyasını doldurun.");
+const client=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});
+const rows=recipes.map(r=>({...recipeToRow(r),published_at:new Date().toISOString()}));
+const {error}=await client.from("recipes").upsert(rows,{onConflict:"slug",ignoreDuplicates:true});
+if(error)throw new Error("Tarif aktarımı başarısız: "+error.message);
+console.log(rows.length+" tarif kontrol edildi. Yeni kayıtlar aktarıldı; mevcut kayıtlar ve yönetici düzenlemeleri korundu.");

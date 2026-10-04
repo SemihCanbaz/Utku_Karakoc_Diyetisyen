@@ -1,0 +1,25 @@
+import assert from "node:assert/strict";
+import { clientSchema,measurementSchema,planSchema,appointmentSchema,recipeSchema,slugify,stats } from "../lib/portal/validation.ts";
+import { recipes } from "../lib/recipes.ts";
+import { recipeToRow,rowToRecipe } from "../lib/recipe-mapping.ts";
+const id="20000000-0000-4000-8000-000000000001";
+const person={first_name:"Test",last_name:"Danışan",email:"test@example.invalid",phone:"05514272126",birth_date:"",gender:"",start_date:"2026-10-03",goal:"",target_weight:"",notes:"",status:"active"};
+assert.equal(clientSchema.parse(person).target_weight,null);
+for(const change of [{first_name:" "},{email:"hatalı"},{birth_date:"2026-02-30"},{target_weight:500},{phone:"abc"},{status:"admin"}])assert.equal(clientSchema.safeParse({...person,...change}).success,false);
+const measurement={client_id:id,measurement_date:"2026-10-03",weight:70,waist:"",hip:"",body_fat_percentage:"",note:""};
+assert.equal(measurementSchema.parse(measurement).waist,null);
+for(const change of [{weight:""},{weight:-1},{weight:1000},{body_fat_percentage:95},{client_id:"other"}])assert.equal(measurementSchema.safeParse({...measurement,...change}).success,false);
+const plan={client_id:id,week_number:1,title:"Birinci hafta",start_date:"2026-10-01",end_date:"2026-10-07",notes:"",status:"draft",content:{meals:[{name:"Kahvaltı",time:"09:00",items:["1 yumurta"]}]}};
+assert.equal(planSchema.safeParse(plan).success,true);
+for(const change of [{end_date:"2026-09-30"},{week_number:0},{content:{meals:[]}},{content:{meals:[{name:"",time:"25:00",items:[""]}]}}])assert.equal(planSchema.safeParse({...plan,...change}).success,false);
+const appt={client_id:id,appointment_date:"2026-10-03",start_time:"10:00",end_time:"11:00",appointment_type:"Kontrol",status:"scheduled",note:""};
+assert.equal(appointmentSchema.safeParse(appt).success,true);
+for(const change of [{end_time:"10:00"},{end_time:"09:00"},{start_time:"24:00"},{appointment_date:"2026-02-30"}])assert.equal(appointmentSchema.safeParse({...appt,...change}).success,false);
+assert.equal(slugify("İnegöl Köfte & Çıtır Şehriye!"),"inegol-kofte-citir-sehriye");
+assert.deepEqual(stats([]),{list:[],first:null,last:null,total:null,change:null});
+const values=[{measurement_date:"2026-10-03",weight:78},{measurement_date:"2026-09-01",weight:80},{measurement_date:"2026-10-01",weight:79}];
+assert.equal(stats(values).total,-2);assert.equal(stats(values).change,-1);assert.equal(stats(values.slice(0,1)).change,null);
+for(const recipe of recipes){const row=recipeToRow(recipe);const result=recipeSchema.safeParse(row);assert.equal(result.success,true,recipe.slug+" "+JSON.stringify(result.error?.issues));const roundtrip=rowToRecipe(row);assert.equal(roundtrip.slug,recipe.slug);assert.deepEqual(roundtrip.steps,recipe.steps);assert.deepEqual(roundtrip.ingredients,recipe.ingredients);}
+assert.equal(recipeSchema.safeParse({...recipeToRow(recipes[0]),slug:"UPPER SPACE"}).success,false);
+const fish=recipes.find(r=>r.slug.startsWith("mezgit-kizartma"));assert.equal(fish.calories,undefined);assert.ok(fish.tip.includes("Tom Kerridge"));
+console.log("PASS: portal validation, date/order boundaries, optional measurements, Turkish slugs, chronological weight changes, all 24 recipe round trips.");

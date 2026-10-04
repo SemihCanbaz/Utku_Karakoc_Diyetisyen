@@ -5,7 +5,7 @@ const manifest = JSON.parse(
   readFileSync(".next/prerender-manifest.json", "utf8"),
 );
 const routes = Object.keys(manifest.routes).filter(
-  (p) => !p.startsWith("/_") && !/\.(xml|txt|webp|ico)$/.test(p),
+  (p) => !p.startsWith("/_") && !["/giris","/sifre-belirle"].includes(p) && !/\.(xml|txt|webp|ico)$/.test(p),
 );
 const internal = new Set(),
   images = new Set();

@@ -43,6 +43,7 @@ export default async function ArticleDetailPage({ params }: Props) {
                   "@type": "Person",
                   name: siteConfig.personName,
                   jobTitle: siteConfig.role,
+                  url: siteConfig.url + "/hakkimda",
                 },
                 citation: article.sources.flatMap((source) => source.url ? [source.url] : []),
               },
@@ -108,7 +109,7 @@ export default async function ArticleDetailPage({ params }: Props) {
 
           <section id="kaynaklar" className="article-sources">
             <p className="eyebrow">KAYNAKLAR</p>
-            <h2>Kaynak dosyada yer alan referanslar</h2>
+            <h2>Bilimsel kaynaklar</h2>
             <ol>
               {article.sources.map((source) => (
                 <li key={source.label}>

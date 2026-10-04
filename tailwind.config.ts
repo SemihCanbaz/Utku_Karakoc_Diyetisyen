@@ -19,7 +19,7 @@ const config: Config = {
           gold: "#B89C72",
           light: "#FBFBF9",
           dark: "#1A261C",
-          muted: "#8C928D",
+          muted: "#536052",
         },
       },
       fontFamily: {

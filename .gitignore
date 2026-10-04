@@ -6,3 +6,10 @@ out/
 *.tsbuildinfo
 *.log
 .preview/
+
+# Local / generated files
+supabase/.temp/
+content-sources/extracted/
+content-sources/*.jpg
+content-sources/contact-sheet.png
+content-sources/steak-review-2.png

@@ -1,94 +1,212 @@
+import Link from "next/link";
 import {
-  Leaf,
-  HeartPulse,
+  GraduationCap,
   BookOpen,
-  CalendarDays,
+  ShieldCheck,
   ArrowUpRight,
 } from "lucide-react";
-import Link from "next/link";
 import { Brand } from "@/components/shared/brand";
 import { AnimatedSection } from "@/components/shared/animated-section";
 import { ConsultationCta } from "@/components/shared/cta";
-import { pageMetadata } from "@/lib/seo";
+import { pageMetadata, jsonLd } from "@/lib/seo";
+import { siteConfig } from "@/lib/site-config";
 export const metadata = pageMetadata(
-  "Hakkımda",
-  "Diyetisyen Utku Karakoç’un kişisel planlama, sürdürülebilir alışkanlıklar ve düzenli takip odaklı beslenme yaklaşımı.",
+  "Diyetisyen Utku Karakoç Hakkında",
+  "Diyetisyen Utku Karakoç’un eğitimi, mesleki gelişimi ve bilimsel, kişiye özel, sürdürülebilir beslenme yaklaşımı. İzmir ve online beslenme danışmanlığı.",
   "/hakkimda",
 );
+const principles = [
+  [
+    "Bilimsel olmalı.",
+    "Beslenme önerilerinin güncel bilimsel kanıtlara dayanması gerektiğine inanıyorum. Moda diyetlerden ve kısa süreli çözümlerden ziyade, güvenilir ve doğru bilgiyi temel alıyorum.",
+  ],
+  [
+    "Kişiye özel olmalı.",
+    "Her insanın ihtiyaçları, yaşam tarzı, alışkanlıkları ve hedefleri farklı. Bu nedenle herkese aynı listeyi uygulamak yerine, kişinin kendi hayatına uyabilecek bir düzen oluşturmayı önemsiyorum.",
+  ],
+  [
+    "Sürdürülebilir olmalı.",
+    "Bir beslenme programının başarısını yalnızca ilk birkaç haftadaki değişimle değil, kişinin bunu aylar ve yıllar boyunca sürdürebilmesiyle değerlendiriyorum.",
+  ],
+  [
+    "Gerçekçi olmalı.",
+    "Her gün kusursuz beslenmek mümkün değil. Dışarıda yemek yemek, yoğun bir gün geçirmek veya sevdiğimiz bir yiyeceği tüketmek sağlıklı beslenmenin dışında olmak anlamına gelmemeli. Önemli olan, bütünün nasıl şekillendiği.",
+  ],
+];
+const internships = [
+  ["Ülker Bisküvi San. AŞ.", "İstanbul", "Gıda Güvenliği Stajyeri"],
+  [
+    "Spice Hotel & Spa",
+    "Antalya",
+    "Diyetisyen / Hijyen ve Sanitasyon Stajyeri",
+  ],
+  [
+    "İstanbul Şişli Hamidiye Etfal Eğitim ve Araştırma Hastanesi",
+    "İstanbul",
+    "Diyetisyen Stajyeri",
+  ],
+  ["İstanbul Bahçelievler Devlet Hastanesi", "İstanbul", "Diyetisyen Stajyeri"],
+];
 export default function About() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Utku Karakoç",
+            jobTitle: "Diyetisyen",
+            url: siteConfig.url + "/hakkimda",
+            alumniOf: {
+              "@type": "CollegeOrUniversity",
+              name: "İstanbul Sağlık ve Teknoloji Üniversitesi",
+            },
+          }),
+        }}
+      />
       <div className="container page-top">
-        <p className="eyebrow">DİYETİSYEN UTKU KARAKOÇ</p>
+        <p className="eyebrow">HAKKIMDA</p>
         <h1>
-          Beslenmeye, sizin
+          Beslenmeyi hayatın dışında değil,
           <br />
-          <em>hayatınızdan bakmak.</em>
+          <em>hayatın içinde ele alıyorum.</em>
         </h1>
-        <p className="intro">
-          Herkesin günü, sofrası ve ihtiyaçları farklı. Beslenme danışmanlığına
-          bu farklılıkları anlayarak başlayalım.
-        </p>
+        <p className="intro">Merhaba, ben Diyetisyen Utku Karakoç.</p>
       </div>
       <section className="container split-content pb-12">
         <AnimatedSection className="brand-plaque">
           <Brand full />
-          <p>KİŞİSEL YAKLAŞIM · SÜRDÜRÜLEBİLİR DENGE</p>
+          <p>BİLİMSEL YAKLAŞIM · GERÇEK HAYAT</p>
         </AnimatedSection>
         <AnimatedSection className="copy-block">
-          <h2>Planın merkezinde siz varsınız.</h2>
+          <h2>Planın merkezinde gerçek hayat var.</h2>
           <p>
-            Beslenme düzeninizi konuşurken yalnızca ne yediğinize değil; öğün
-            saatlerinize, hazırlık için ayırabildiğiniz zamana, hareketinize ve
-            tercihlerinize birlikte bakarız.
+            Beslenmenin yalnızca kilo vermek, kalori hesaplamak ya da bazı
+            yiyecekleri hayatımızdan çıkarmaktan ibaret olduğuna inanmıyorum.
           </p>
           <p>
-            Amaç, tek tip bir listeyi uygulamak değil; ihtiyaçlarınıza uygun
-            seçenekleri anlamak ve günlük hayatınızda kullanabilmektir. Takip
-            görüşmeleri, işe yarayan adımları ve zorlandığınız noktaları
-            değerlendirmeye alan açar.
+            Günlük hayatımız; işimiz, sosyal çevremiz, alışkanlıklarımız,
+            sevdiğimiz yemekler ve bazen de yoğunluğumuzla birlikte
+            şekilleniyor. Bu nedenle iyi bir beslenme planının yalnızca kâğıt
+            üzerinde doğru olması değil, gerçek hayatta uygulanabilir olması
+            gerektiğini düşünüyorum.
+          </p>
+          <p>
+            Benim yaklaşımımın temelinde bilimsel bilgiler ile günlük hayatın
+            gerçeklerini bir araya getirmek var.
           </p>
           <Link href="/vip-diyet" className="text-link">
-            Danışmanlık sürecini inceleyin <ArrowUpRight size={17} />
+            Danışmanlık yaklaşımımı keşfedin <ArrowUpRight size={17} />
           </Link>
         </AnimatedSection>
       </section>
       <section className="section-space services-section">
         <div className="container">
-          <ul className="grid md:grid-cols-2 gap-10 principle-list">
-            {[
-              {
-                icon: HeartPulse,
-                title: "Kişiye özel planlama",
-                text: "Hedefleriniz, beslenme tercihleriniz ve günlük ihtiyaçlarınız birlikte ele alınır.",
-              },
-              {
-                icon: Leaf,
-                title: "Sürdürülebilirlik",
-                text: "Uzun vadede uygulayabildiğiniz alışkanlıklara, esnekliğe ve çeşitliliğe yer verilir.",
-              },
-              {
-                icon: CalendarDays,
-                title: "Düzenli takip",
-                text: "Geri bildirimleriniz değerlendirilir; gerektiğinde öğünler ve alternatifler güncellenir.",
-              },
-              {
-                icon: BookOpen,
-                title: "Bilgiyi anlaşılır kılmak",
-                text: "Porsiyon, besin seçimi ve öğün düzeni gibi konular günlük örneklerle konuşulur.",
-              },
-            ].map((item) => (
-              <li key={item.title}>
-                <span className="icon-badge">
-                  <item.icon />
-                </span>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </div>
-              </li>
+          <p className="eyebrow">YAKLAŞIMIMIN DÖRT TEMELİ</p>
+          <h2 className="font-heading text-4xl mb-12">Benim için beslenme;</h2>
+          <div className="grid md:grid-cols-2 gap-10">
+            {principles.map(([title, text], i) => (
+              <AnimatedSection key={title} className="copy-block">
+                <p className="eyebrow">{String(i + 1).padStart(2, "0")} —</p>
+                <h3 className="font-heading text-2xl">{title}</h3>
+                <p>{text}</p>
+              </AnimatedSection>
             ))}
-          </ul>
+          </div>
+        </div>
+      </section>
+      <section className="container section-space split-content">
+        <div>
+          <p className="eyebrow">BİR LİSTEDEN DAHA FAZLASI</p>
+          <h2 className="font-heading text-4xl">
+            Diyetisyenlik benim için
+            <br />
+            <em>ne ifade ediyor?</em>
+          </h2>
+        </div>
+        <div className="copy-block">
+          <p>
+            Bir danışana yalnızca “ne yiyeceğini” söylemekten daha fazlasını
+            yapabilmek istiyorum.
+          </p>
+          <p>
+            Çünkü çoğu zaman mesele hangi besinin sağlıklı olduğunu bilmek
+            değil; onu günlük hayatımıza nasıl dahil edeceğimizi bilmektir.
+          </p>
+          <p>
+            Bu nedenle danışmanlık sürecinde yalnızca bir beslenme listesi
+            hazırlamak yerine, kişinin kendi düzenini oluşturmasına yardımcı
+            olmayı önemsiyorum.
+          </p>
+          <p>
+            <strong>Hedefimiz;</strong> yasaklarla dolu kısa süreli bir diyet
+            değil, uzun vadede sürdürülebilecek bir beslenme alışkanlığı
+            oluşturmak.
+          </p>
+        </div>
+      </section>
+      <section className="about-credentials section-space">
+        <div className="container">
+          <p className="eyebrow">EĞİTİM & MESLEKİ GELİŞİM</p>
+          <h2 className="font-heading text-4xl mb-10">
+            Bilginin üzerine,
+            <br />
+            <em>deneyim eklemek.</em>
+          </h2>
+          <div className="credentials-layout">
+            <div className="credential-education">
+              <GraduationCap size={30} />
+              <p className="eyebrow">LİSANS EĞİTİMİ</p>
+              <h3>İstanbul Sağlık ve Teknoloji Üniversitesi</h3>
+              <p>Beslenme ve Diyetetik</p>
+              <div className="credential-certificates">
+                <ShieldCheck size={22} />
+                <h4>Sertifikalar</h4>
+                <ul>
+                  <li>Hijyen Sertifikası</li>
+                  <li>İş Sağlığı ve Güvenliği Sertifikası</li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <BookOpen size={22} />
+                <h3 className="text-lg font-semibold">Staj deneyimleri</h3>
+              </div>
+              <ol className="credential-timeline">
+                {internships.map(([name, city, role], i) => (
+                  <li key={name}>
+                    <span>{String(i + 1).padStart(2, "0")}</span>
+                    <div>
+                      <small>{city}</small>
+                      <h4>{name}</h4>
+                      <p>{role}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="container section-space">
+        <div className="about-manifesto">
+          <p className="eyebrow">
+            BİLİMSEL YAKLAŞIM. GERÇEK HAYAT. KİŞİYE ÖZEL ÇÖZÜMLER.
+          </p>
+          <h2>
+            Hayatınızın içinde
+            <br />
+            <em>daha iyi beslenebileceğiniz bir düzen.</em>
+          </h2>
+          <p>
+            Benim için sağlıklı beslenme, hayatınızı değiştirmek zorunda
+            olduğunuz anlamına gelmez. Hayatınızın içinde daha iyi
+            beslenebileceğiniz bir düzen oluşturmak anlamına gelir.
+          </p>
+          <strong>Diyetisyen Utku Karakoç</strong>
         </div>
       </section>
       <ConsultationCta />

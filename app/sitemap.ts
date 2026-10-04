@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site-config";
-import { recipes } from "@/lib/recipes";
+import { getPublicRecipes } from "@/lib/recipe-data";
+export const revalidate = 60;
 import { guides } from "@/lib/guides";
 import { articles } from "@/lib/articles";
 import { services } from "@/lib/services";
 import { tools } from "@/lib/tools";
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!siteConfig.allowIndexing) return [];
+  const recipes = await getPublicRecipes();
   return [
     "",
     "/hakkimda",
@@ -19,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/iletisim",
     "/randevu",
     "/gizlilik",
+    "/cerez-politikasi",
     "/kvkk",
     "/kullanim-kosullari",
     ...recipes.map((r) => "/tarifler/" + r.slug),

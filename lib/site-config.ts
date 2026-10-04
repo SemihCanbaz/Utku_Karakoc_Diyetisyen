@@ -22,7 +22,7 @@ export const siteConfig = {
   personName: "Utku Karakoç",
   role: "Diyetisyen",
   description:
-    "Günlük yaşamınıza uyum sağlayan kişisel beslenme danışmanlığı. Online görüşme, sürdürülebilir alışkanlıklar ve mutfağınıza ilham veren tarifler.",
+    "Diyetisyen Utku Karakoç ile İzmir ve online beslenme danışmanlığı. Kilo yönetimi, sporcu beslenmesi ve günlük yaşamınıza uygun sürdürülebilir alışkanlıklar.",
   url: siteUrl(process.env.NEXT_PUBLIC_SITE_URL),
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "Dyt.utkukarakoc@outlook.com",
   phone: process.env.NEXT_PUBLIC_PHONE?.trim() || "0554 206 21 26",

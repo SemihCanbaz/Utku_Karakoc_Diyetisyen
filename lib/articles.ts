@@ -1,3 +1,4 @@
+import { newArticles } from "./new-articles.ts";
 export type ArticleSource = { label: string; url?: string };
 export type ArticleSection = {
   title: string;
@@ -19,10 +20,12 @@ export type Article = {
 };
 
 export const articles: Article[] = [
+  ...newArticles,
   {
     slug: "ev-yogurdu-vs-market-yogurdu",
     title: "Ev yoğurdu mu, market yoğurdu mu?",
-    subtitle: "Besin değeri, kültür içeriği ve gıda güvenliği açısından bilimsel karşılaştırma",
+    subtitle:
+      "Besin değeri, kültür içeriği ve gıda güvenliği açısından bilimsel karşılaştırma",
     category: "Gıda okuryazarlığı",
     description:
       "Ev ve market yoğurdunu besin değeri, mikrobiyal yapı, probiyotik iddiası, hijyen ve etiket bilgileri üzerinden dengeli biçimde karşılaştırın.",
@@ -70,71 +73,30 @@ export const articles: Article[] = [
     takeaway:
       "'Ev yoğurdu kesinlikle daha sağlıklıdır' veya 'market yoğurdu sağlıksızdır' gibi ikili sonuçlar yerine; sade/şeker ilaveli oluşu, gerçek besin içeriği, kültür bilgisi, hijyen ve saklama koşulları üzerinden ürün bazında değerlendirme yapın.",
     sources: [
-      { label: "Savaiano DA, Hutkins RW. Nutrition Reviews (2021)", url: "https://doi.org/10.1093/nutrit/nuaa013" },
-      { label: "Aryana KJ, Olson DW. Journal of Dairy Science (2017)", url: "https://doi.org/10.3168/jds.2017-12981" },
-      { label: "Nyanzi R, Jooste PJ, Buys EM. Journal of Dairy Science (2021)", url: "https://doi.org/10.3168/jds.2020-19116" },
-      { label: "Gallo Ruelas M, et al. Journal of Nutritional Biochemistry (2026)", url: "https://doi.org/10.1016/j.jnutbio.2026.110346" },
-    ],
-  },
-  {
-    slug: "aralikli-oruc-bilimsel-degerlendirme",
-    title: "Aralıklı oruç gerçekten işe yarıyor mu?",
-    subtitle: "Kilo yönetimi, metabolik sağlık ve sürdürülebilirlik açısından bilimsel değerlendirme",
-    category: "Kilo yönetimi",
-    description:
-      "Aralıklı orucun kilo kaybı, metabolik göstergeler, protein alımı ve sürdürülebilirlik açısından mevcut kanıtlarını inceleyin.",
-    readingTime: "7 dk",
-    number: "02",
-    intro:
-      "Aralıklı oruç kilo kaybına yardımcı olabilir; ancak mevcut kanıtlar etkinin önemli ölçüde toplam enerji alımındaki azalmayla ilişkili olduğunu ve klasik enerji kısıtlamasına belirgin bir üstünlük göstermediğini düşündürmektedir.",
-    sections: [
       {
-        title: "Kilo kaybında temel belirleyici enerji dengesi",
-        paragraphs: [
-          "Beslenme penceresinin daraltılması bazı bireylerde gün boyunca daha az enerji tüketmeyi kolaylaştırabilir. Bu nedenle görülen kilo kaybını yalnızca 'oruç tutma' mekanizmasıyla açıklamak doğru değildir.",
-          "Toplam enerji alımı, besin kalitesi, fiziksel aktivite ve yöntemin sürdürülebilirliği birlikte değerlendirilmelidir.",
-        ],
+        label: "Savaiano DA, Hutkins RW. Nutrition Reviews (2021)",
+        url: "https://doi.org/10.1093/nutrit/nuaa013",
       },
       {
-        title: "Metabolik sağlık sonuçları",
-        paragraphs: [
-          "Bazı çalışmalarda insülin duyarlılığında iyileşme ve trigliserit düzeylerinde azalma bildirilmiştir. Bununla birlikte bu değişikliklerin önemli bir bölümü kilo kaybıyla ilişkili olabilir.",
-          "Aralıklı orucun klasik enerji kısıtlamasından bağımsız ve belirgin biçimde üstün olduğu sonucu çıkarılmamalıdır.",
-        ],
+        label: "Aryana KJ, Olson DW. Journal of Dairy Science (2017)",
+        url: "https://doi.org/10.3168/jds.2017-12981",
       },
       {
-        title: "Protein alımı ve kas kütlesi",
-        paragraphs: [
-          "Beslenme penceresi daraldığında yeterli enerji ve protein alımını sürdürmek önem kazanır. Özellikle kilo kaybı döneminde yetersiz protein alımı kas kütlesinin korunmasını zorlaştırabilir.",
-        ],
+        label: "Nyanzi R, Jooste PJ, Buys EM. Journal of Dairy Science (2021)",
+        url: "https://doi.org/10.3168/jds.2020-19116",
       },
       {
-        title: "Sürdürülebilirlik kişiden kişiye değişir",
-        paragraphs: [
-          "Çalışma saatleri, sosyal yaşam, açlık toleransı ve mevcut beslenme alışkanlıkları yöntemin uzun vadede uygulanabilirliğini etkiler.",
-          "Bazı kişiler için öğün düzenini sadeleştirebilirken, bazı kişilerde uzun açlık dönemleri günlük yaşamla uyumsuz olabilir.",
-        ],
+        label:
+          "Gallo Ruelas M, et al. Journal of Nutritional Biochemistry (2026)",
+        url: "https://doi.org/10.1016/j.jnutbio.2026.110346",
       },
-      {
-        title: "Klinik yaklaşım",
-        paragraphs: [
-          "Aralıklı oruç zorunlu veya üstün bir yöntem olarak değil, uygun bireylerde seçeneklerden biri olarak değerlendirilebilir.",
-          "Asıl soru 'daha mı iyi?' değil, 'bu birey için yeterli, dengeli ve sürdürülebilir bir düzen kurulabiliyor mu?' olmalıdır.",
-        ],
-      },
-    ],
-    takeaway:
-      "Aralıklı oruç bazı bireylerde işe yarayabilir; fakat üstün bir yöntem olduğu gösterilmemiştir. Yeterli protein, toplam enerji, besin kalitesi ve sürdürülebilirlik birlikte değerlendirilmelidir.",
-    sources: [
-      { label: "Tinsley GM, La Bounty PM. Nutrition Reviews (2015)", url: "https://doi.org/10.1093/nutrit/nuv041" },
-      { label: "Welton S, et al. Canadian Family Physician (2020)" },
-      { label: "Lowe DA, et al. JAMA Internal Medicine (2020)", url: "https://doi.org/10.1001/jamainternmed.2020.4153" },
     ],
   },
   {
     slug: "gdo-tavuk-yumurta-bilimsel-gercekler",
     title: "GDO, tavuk ve yumurta: ne biliyoruz?",
-    subtitle: "GDO'lu yem, hayvanın genetiği ve ürün güvenliği arasındaki farklar",
+    subtitle:
+      "GDO'lu yem, hayvanın genetiği ve ürün güvenliği arasındaki farklar",
     category: "Gıda okuryazarlığı",
     description:
       "GDO'lu yem tüketen tavuğun veya yumurtasının GDO'lu olup olmadığı, besin değeri ve güvenlik açısından bilimsel çerçeveyi öğrenin.",
@@ -166,7 +128,9 @@ export const articles: Article[] = [
       },
       {
         title: "Asıl değerlendirilmesi gereken noktalar",
-        paragraphs: ["Tavuk ve yumurta seçiminde yalnızca GDO başlığına odaklanmak yerine üretim ve tüketim zincirinin tamamına bakmak daha anlamlıdır."],
+        paragraphs: [
+          "Tavuk ve yumurta seçiminde yalnızca GDO başlığına odaklanmak yerine üretim ve tüketim zincirinin tamamına bakmak daha anlamlıdır.",
+        ],
         bullets: [
           "Yemin genel kalite ve besin özellikleri",
           "Üretim sırasında hijyen ve biyogüvenlik",
@@ -185,16 +149,30 @@ export const articles: Article[] = [
     takeaway:
       "GDO'lu yem tüketen tavuğun 'GDO'lu tavuk' haline geldiği düşüncesi bilimsel olarak doğru değildir. Ürünü değerlendirirken güvenilir üretim, hijyen, saklama, işleme düzeyi ve genel besin profiline bakın.",
     sources: [
-      { label: "Tufarelli V, et al. Critical Reviews in Food Science and Nutrition (2015)", url: "https://doi.org/10.1080/10408398.2012.667017" },
-      { label: "de Vos CJ, Swanenburg M. Food and Chemical Toxicology (2018)", url: "https://doi.org/10.1016/j.fct.2017.08.031" },
-      { label: "Nadal A, et al. Food and Chemical Toxicology (2018)", url: "https://doi.org/10.1016/j.fct.2017.08.032" },
-      { label: "EFSA statement (2007)", url: "https://doi.org/10.2903/j.efsa.2007.744" },
+      {
+        label:
+          "Tufarelli V, et al. Critical Reviews in Food Science and Nutrition (2015)",
+        url: "https://doi.org/10.1080/10408398.2012.667017",
+      },
+      {
+        label: "de Vos CJ, Swanenburg M. Food and Chemical Toxicology (2018)",
+        url: "https://doi.org/10.1016/j.fct.2017.08.031",
+      },
+      {
+        label: "Nadal A, et al. Food and Chemical Toxicology (2018)",
+        url: "https://doi.org/10.1016/j.fct.2017.08.032",
+      },
+      {
+        label: "EFSA statement (2007)",
+        url: "https://doi.org/10.2903/j.efsa.2007.744",
+      },
     ],
   },
   {
     slug: "yumurta-uretim-kodlari-0-1-2-3",
     title: "Yumurtadaki 0–1–2–3 kodları ne anlatır?",
-    subtitle: "Üretim sistemi, besin değeri, omega-3 ve hayvan refahı açısından değerlendirme",
+    subtitle:
+      "Üretim sistemi, besin değeri, omega-3 ve hayvan refahı açısından değerlendirme",
     category: "Gıda okuryazarlığı",
     description:
       "Organik, serbest gezen, kafessiz ve kafes yumurtalarını üretim sistemi, besin değeri ve hayvan refahı açısından karşılaştırın.",
@@ -240,16 +218,29 @@ export const articles: Article[] = [
     takeaway:
       "Yumurta seçiminde üretim kodu önemlidir fakat tek başına 'daha sağlıklı' sıralaması yaratmaz. Besin profili, yem, ürün güvenliği, hayvan refahı ve kişisel tercihleri birlikte değerlendirin.",
     sources: [
-      { label: "Anderson KE. Poultry Science (2011)", url: "https://doi.org/10.3382/ps.2010-01289" },
-      { label: "Bonnefous C, et al. Frontiers in Veterinary Science (2022)", url: "https://doi.org/10.3389/fvets.2022.952922" },
-      { label: "Campbell DLM, Bari MS. Animal Production Science (2021)", url: "https://doi.org/10.1071/AN19576" },
-      { label: "Rodenburg TB, et al. Poultry Science (2016)", url: "https://doi.org/10.3382/ps/pew082" },
+      {
+        label: "Anderson KE. Poultry Science (2011)",
+        url: "https://doi.org/10.3382/ps.2010-01289",
+      },
+      {
+        label: "Bonnefous C, et al. Frontiers in Veterinary Science (2022)",
+        url: "https://doi.org/10.3389/fvets.2022.952922",
+      },
+      {
+        label: "Campbell DLM, Bari MS. Animal Production Science (2021)",
+        url: "https://doi.org/10.1071/AN19576",
+      },
+      {
+        label: "Rodenburg TB, et al. Poultry Science (2016)",
+        url: "https://doi.org/10.3382/ps/pew082",
+      },
     ],
   },
   {
     slug: "detoks-diyetleri-bilimsel-degerlendirme",
     title: "Detoks diyetleri gerçekten 'toksin' atar mı?",
-    subtitle: "Toksin eliminasyonu, kısa vadeli kilo kaybı ve sürdürülebilirlik üzerine bilimsel değerlendirme",
+    subtitle:
+      "Toksin eliminasyonu, kısa vadeli kilo kaybı ve sürdürülebilirlik üzerine bilimsel değerlendirme",
     category: "Beslenme mitleri",
     description:
       "Detoks diyetlerinin toksin eliminasyonu, kilo kaybı ve metabolik sağlık üzerindeki iddialarını mevcut bilimsel çerçeveyle değerlendirin.",
@@ -294,9 +285,19 @@ export const articles: Article[] = [
     takeaway:
       "Detoks programlarının özel bir toksin temizleme avantajı gösterilmemiştir. Uzun vadeli sağlık ve kilo yönetiminde dengeli, yeterli ve sürdürülebilir beslenme alışkanlıkları daha temel bir yaklaşımdır.",
     sources: [
-      { label: "Klein AV, Kiat H. Journal of Human Nutrition and Dietetics (2015)", url: "https://doi.org/10.1111/jhn.12286" },
-      { label: "NCCIH · Detoxes and Cleanses: What You Need To Know", url: "https://www.nccih.nih.gov/health/detoxes-and-cleanses-what-you-need-to-know" },
-      { label: "Hall KD, et al. American Journal of Clinical Nutrition (2017)", url: "https://doi.org/10.3945/ajcn.117.155224" },
+      {
+        label:
+          "Klein AV, Kiat H. Journal of Human Nutrition and Dietetics (2015)",
+        url: "https://doi.org/10.1111/jhn.12286",
+      },
+      {
+        label: "NCCIH · Detoxes and Cleanses: What You Need To Know",
+        url: "https://www.nccih.nih.gov/health/detoxes-and-cleanses-what-you-need-to-know",
+      },
+      {
+        label: "Hall KD, et al. American Journal of Clinical Nutrition (2017)",
+        url: "https://doi.org/10.3945/ajcn.117.155224",
+      },
     ],
   },
   {
@@ -347,15 +348,25 @@ export const articles: Article[] = [
     takeaway:
       "Aç karnına egzersiz zorunlu bir yağ kaybı stratejisi değildir. Tercih; hedef, egzersiz türü, performans, tolerans ve genel beslenme düzenine göre kişiselleştirilmelidir.",
     sources: [
-      { label: "Horowitz JF, Klein S. American Journal of Clinical Nutrition (2000)" },
-      { label: "Schoenfeld BJ, Aragon AA, Wilborn CD. JISSN (2014)", url: "https://doi.org/10.1186/s12970-014-0054-7" },
-      { label: "Paoli A, Marcolin G, Petrone N. Journal of Translational Medicine / fasting-exercise literature (2011)" },
+      {
+        label:
+          "Horowitz JF, Klein S. American Journal of Clinical Nutrition (2000)",
+      },
+      {
+        label: "Schoenfeld BJ, Aragon AA, Wilborn CD. JISSN (2014)",
+        url: "https://doi.org/10.1186/s12970-014-0054-7",
+      },
+      {
+        label:
+          "Paoli A, Marcolin G, Petrone N. Journal of Translational Medicine / fasting-exercise literature (2011)",
+      },
     ],
   },
   {
     slug: "peynir-tuketimi-ve-saglik",
     title: "Peynir tüketimi ve sağlık",
-    subtitle: "Gıda matriksi, kardiyometabolik sonuçlar ve peynir seçiminde pratik çerçeve",
+    subtitle:
+      "Gıda matriksi, kardiyometabolik sonuçlar ve peynir seçiminde pratik çerçeve",
     category: "Gıda okuryazarlığı",
     description:
       "Peynir tüketimini yalnızca yağ içeriğiyle değil; gıda matriksi, fermantasyon, tuz, işlenme düzeyi ve porsiyon üzerinden değerlendirin.",
@@ -378,7 +389,9 @@ export const articles: Article[] = [
       },
       {
         title: "Kaynak metindeki peynir seçim çerçevesi",
-        paragraphs: ["Belgede klinik uygulama açısından aşağıdaki gruplar örneklenmiştir; bu sıralama kaynak metnin kendi çerçevesidir."],
+        paragraphs: [
+          "Belgede klinik uygulama açısından aşağıdaki gruplar örneklenmiştir; bu sıralama kaynak metnin kendi çerçevesidir.",
+        ],
         bullets: [
           "Lor / cottage cheese: yüksek protein, düşük yağ ve tuz vurgusu",
           "Az tuzlu beyaz peynir: günlük tüketim için dengeli seçenek olarak aktarılmıştır",
@@ -399,12 +412,24 @@ export const articles: Article[] = [
     takeaway:
       "Tek bir 'en sağlıklı peynir' yerine; düşük tuz, daha az işlenme, porsiyon kontrolü, genel diyet kalitesi ve bireysel gereksinimleri birlikte değerlendirin.",
     sources: [
-      { label: "Schwingshackl L, ve ark. (2017) · Kaynak dosyada kısmi bibliyografik bilgi" },
-      { label: "Astrup A, ve ark. (2019) · Kaynak dosyada kısmi bibliyografik bilgi" },
-      { label: "Guo J, ve ark. (2017) · Kaynak dosyada kısmi bibliyografik bilgi" },
+      {
+        label:
+          "Schwingshackl L, ve ark. (2017) · Kaynak dosyada kısmi bibliyografik bilgi",
+      },
+      {
+        label:
+          "Astrup A, ve ark. (2019) · Kaynak dosyada kısmi bibliyografik bilgi",
+      },
+      {
+        label:
+          "Guo J, ve ark. (2017) · Kaynak dosyada kısmi bibliyografik bilgi",
+      },
     ],
   },
-];
+].map((article, index) => ({
+  ...article,
+  number: String(index + 1).padStart(2, "0"),
+}));
 
 export function getArticle(slug: string) {
   return articles.find((article) => article.slug === slug);

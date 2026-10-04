@@ -14,7 +14,9 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { Brand } from "@/components/shared/brand";
 import { ConsultationCta } from "@/components/shared/cta";
 import { RecipeCard } from "@/components/recipe/recipe-card";
-import { recipes } from "@/lib/recipes";
+import { KitchenPicks } from "@/components/recipe/kitchen-picks";
+import { getPublicRecipes } from "@/lib/recipe-data";
+export const revalidate = 60;
 import { guides } from "@/lib/guides";
 import { GuideCard } from "@/components/guides/guide-card";
 import { ArticleCard } from "@/components/articles/article-card";
@@ -25,16 +27,10 @@ import { tools } from "@/lib/tools";
 import { siteConfig } from "@/lib/site-config";
 import { jsonLd, pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata(
-  "Kişisel Beslenme ve Online Danışmanlık",
+  "İzmir Diyetisyen ve Online Beslenme Danışmanlığı",
   siteConfig.description,
   "/",
 );
-const featuredRecipes = [
-  "kremali-ispanakli-somon",
-  "firinda-yaban-mersinli-pankek",
-  "tavuk-sote-ve-bulgur-pilavi",
-  "ev-yapimi-dana-kofte",
-].flatMap((slug) => recipes.filter((r) => r.slug === slug));
 const process = [
   ["Tanışma", "Hedeflerinizi ve beklentilerinizi konuşalım."],
   ["Değerlendirme", "Günlük düzeninizi ve ihtiyaçlarınızı anlayalım."],
@@ -42,7 +38,12 @@ const process = [
   ["Takip", "Deneyimlerinizi birlikte değerlendirelim."],
   ["Güncelleme", "Değişen ihtiyaçlarınıza göre planı uyarlayalım."],
 ];
-export default function Home() {
+export default async function Home() {
+  const recipes = await getPublicRecipes();
+  const featuredRecipes = [
+    ...recipes.filter((r) => r.featured),
+    ...recipes.filter((r) => !r.featured),
+  ].slice(0, 4);
   return (
     <>
       <script
@@ -237,9 +238,17 @@ export default function Home() {
           <div className="section-row">
             <SectionHeading
               label="BESLENME DANIŞMANLIĞI"
-              title={<>Her yaşamın<br /><em>ihtiyacı farklı.</em></>}
+              title={
+                <>
+                  Her yaşamın
+                  <br />
+                  <em>ihtiyacı farklı.</em>
+                </>
+              }
             >
-              Kilo yönetiminden sporcu beslenmesine, gebelikten klinik başlıklara kadar farklı ihtiyaçlar için kişiselleştirilmiş danışmanlık alanları.
+              Kilo yönetiminden sporcu beslenmesine, gebelikten klinik
+              başlıklara kadar farklı ihtiyaçlar için kişiselleştirilmiş
+              danışmanlık alanları.
             </SectionHeading>
             <Link href="/danismanlik" className="text-link">
               Tüm danışmanlık alanları <ArrowUpRight size={16} />
@@ -257,9 +266,17 @@ export default function Home() {
           <AnimatedSection>
             <SectionHeading
               label="7 ÜCRETSİZ ARAÇ"
-              title={<>Sayıları anlayın.<br /><em>Dengeyi keşfedin.</em></>}
+              title={
+                <>
+                  Sayıları anlayın.
+                  <br />
+                  <em>Dengeyi keşfedin.</em>
+                </>
+              }
             >
-              BMI, günlük enerji, bazal metabolizma, makro dağılımı, su ihtiyacı, referans ağırlık ve bel/boy oranı için açıklanabilir hesaplama araçları.
+              BMI, günlük enerji, bazal metabolizma, makro dağılımı, su
+              ihtiyacı, referans ağırlık ve bel/boy oranı için açıklanabilir
+              hesaplama araçları.
             </SectionHeading>
             <Link href="/hesaplayicilar" className="action mt-7">
               Tüm Araçları Aç <ArrowUpRight size={17} />
@@ -308,6 +325,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <KitchenPicks recipes={recipes} />
       <section className="journey">
         <div className="container">
           <SectionHeading
@@ -357,9 +375,16 @@ export default function Home() {
           <div className="section-row">
             <SectionHeading
               label="SON MAKALELER"
-              title={<>Popüler sorulara<br /><em>kaynaklı yanıtlar.</em></>}
+              title={
+                <>
+                  Popüler sorulara
+                  <br />
+                  <em>kaynaklı yanıtlar.</em>
+                </>
+              }
             >
-              Beslenme mitleri, gıda seçimleri ve güncel tartışmaları bilimsel kaynakların sınırlarını koruyarak ele alan içerikler.
+              Beslenme mitleri, gıda seçimleri ve güncel tartışmaları bilimsel
+              kaynakların sınırlarını koruyarak ele alan içerikler.
             </SectionHeading>
             <Link href="/makaleler" className="text-link">
               Tüm makaleler <ArrowUpRight size={17} />

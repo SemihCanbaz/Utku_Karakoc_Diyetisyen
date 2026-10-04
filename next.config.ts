@@ -1,7 +1,18 @@
 import type { NextConfig } from "next";
 const config: NextConfig = {
   poweredByHeader: false,
+  turbopack: { root: process.cwd() },
+  outputFileTracingRoot: process.cwd(),
+  experimental: { serverActions: { bodySizeLimit: "8mb" } },
   images: {
+    remotePatterns: process.env.NEXT_PUBLIC_SUPABASE_URL
+      ? [
+          new URL(
+            "/storage/v1/object/public/recipe-images/**",
+            process.env.NEXT_PUBLIC_SUPABASE_URL,
+          ),
+        ]
+      : [],
     formats: ["image/avif", "image/webp"],
     qualities: [75, 85, 90, 100],
   },
@@ -25,6 +36,20 @@ const config: NextConfig = {
   },
   async headers() {
     return [
+      {
+        source: "/admin/:path*",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
+        source: "/danisan/:path*",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
       {
         source: "/(.*)",
         headers: [

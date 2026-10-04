@@ -2,19 +2,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock3, Users, ChefHat, Timer, ArrowUpRight } from "lucide-react";
-import { getRecipeBySlug, recipes } from "@/lib/recipes";
+import { getPublicRecipe, getPublicRecipes, recipesFromDatabase } from "@/lib/recipe-data";
+import { recipes as seedRecipes } from "@/lib/recipes";
+export const revalidate = 60;
 import { RecipeCard } from "@/components/recipe/recipe-card";
 import { RecipeActions } from "@/components/recipe/recipe-actions";
 import { pageMetadata, jsonLd } from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
 type Props = { params: Promise<{ slug: string }> };
-export const dynamicParams = false;
+export const dynamicParams = true;
 export function generateStaticParams() {
-  return recipes.map((recipe) => ({ slug: recipe.slug }));
+  return (recipesFromDatabase() ? [] : seedRecipes).map((recipe) => ({ slug: recipe.slug }));
 }
 export async function generateMetadata({ params }: Props) {
-  const recipe = getRecipeBySlug((await params).slug);
-  if (!recipe) return { title: "Tarif bulunamadı", robots: { index: false } };
+  const recipe = await getPublicRecipe((await params).slug);
+  if (!recipe) notFound();
   return pageMetadata(
     recipe.title,
     recipe.shortDescription,
@@ -27,8 +29,9 @@ function duration(value: string) {
   return match ? "PT" + match.at(-1) + "M" : undefined;
 }
 export default async function RecipeDetail({ params }: Props) {
-  const recipe = getRecipeBySlug((await params).slug);
+  const recipe = await getPublicRecipe((await params).slug);
   if (!recipe) notFound();
+  const recipes = await getPublicRecipes();
   const nutrients = [
     { label: "Enerji", value: recipe.calories, unit: "kcal", key: "calories" },
     {
@@ -54,7 +57,8 @@ export default async function RecipeDetail({ params }: Props) {
     "@type": "Recipe",
     name: recipe.title,
     description: recipe.shortDescription,
-    image: siteConfig.url + recipe.image,
+    image: new URL(recipe.image, siteConfig.url).href,
+    author: { "@type": "Person", name: siteConfig.personName, url: siteConfig.url + "/hakkimda" },
     recipeYield: recipe.servings,
     recipeCategory: recipe.category,
     keywords: recipe.tags.join(", "),
@@ -92,6 +96,7 @@ export default async function RecipeDetail({ params }: Props) {
         </nav>
         <div className="detail-hero">
           <div className="detail-photo">
+            {recipe.tags.includes("Şef Tarifinden Uyarlama") && <span className="recipe-origin-badge">Şef tarifinden uyarlama</span>}
             <Image
               src={recipe.image}
               alt={recipe.imageAlt}
@@ -118,7 +123,7 @@ export default async function RecipeDetail({ params }: Props) {
                 { icon: Timer, label: "Hazırlık", value: recipe.prepTime },
                 { icon: ChefHat, label: "Pişirme", value: recipe.cookTime },
                 { icon: Clock3, label: "Toplam", value: recipe.totalTime },
-              ].map((m) => (
+              ].filter(m => m.value).map((m) => (
                 <div key={m.label}>
                   <m.icon size={18} />
                   <span>
@@ -139,8 +144,8 @@ export default async function RecipeDetail({ params }: Props) {
             <h2>Malzemeler</h2>
             <p className="small-note">Tarif miktarı: {recipe.servings}.</p>
             <ul className="ingredients-list">
-              {recipe.ingredients.map((ingredient) => (
-                <li key={ingredient}>
+              {recipe.ingredients.map((ingredient, index) => (
+                <li key={index}>
                   <label>
                     <input type="checkbox" />
                     <span>{ingredient}</span>
@@ -225,8 +230,8 @@ export default async function RecipeDetail({ params }: Props) {
           )}
           {recipe.tip && (
             <div>
-              <h3>Püf noktası</h3>
-              <p>{recipe.tip}</p>
+              <h3>{recipe.tags.includes("Şef Tarifinden Uyarlama") ? "Tarifin ilham kaynağı" : "Püf noktası"}</h3>
+              <p>{recipe.tip.split("Kaynak: https://")[0]}{recipe.tip.includes("Kaynak: https://") && <a className="text-link" href={"https://" + recipe.tip.split("Kaynak: https://")[1]} target="_blank" rel="noreferrer">Orijinal şef tarifini inceleyin ↗</a>}</p>
             </div>
           )}
         </section>

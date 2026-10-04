@@ -54,8 +54,8 @@ export default function Footer() {
             <Link href="/makaleler">Bilimsel makaleler</Link>
             <Link href="/hesaplayicilar">7 ücretsiz araç</Link>
             <Link href="/beslenme-rehberi">Hastalıklarda beslenme</Link>
-            <Link href="/tarifler/kremali-ispanakli-somon">
-              Haftanın tarif fikri <ArrowUpRight size={14} />
+            <Link href="/tarifler">
+              Sofranıza yeni fikirler <ArrowUpRight size={14} />
             </Link>
           </nav>
           <div className="footer-contact">
@@ -86,7 +86,9 @@ export default function Footer() {
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Utku Karakoç</span>
           <div>
+            <Link href="/giris">Danışan girişi</Link>
             <Link href="/gizlilik">Gizlilik</Link>
+            <Link href="/cerez-politikasi">Çerez politikası</Link>
             <Link href="/kvkk">Kişisel veriler</Link>
             <Link href="/kullanim-kosullari">Kullanım koşulları</Link>
           </div>

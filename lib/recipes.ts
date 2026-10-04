@@ -1,3 +1,4 @@
+import { newRecipes } from "./new-recipes.ts";
 export type Recipe = {
   slug: string;
   title: string;
@@ -31,6 +32,7 @@ export type Recipe = {
 };
 
 export const recipes: Recipe[] = [
+  ...newRecipes,
   {
     slug: "firinda-yaban-mersinli-pankek",
     title: "Fırında Yaban Mersinli Pankek",
@@ -554,7 +556,8 @@ export const recipes: Recipe[] = [
     carbs: 54,
     fat: 16,
     fiber: 14,
-    allergens: "Belirgin majör alerjen içermez; kullanılan ürün etiketlerini kontrol edin",
+    allergens:
+      "Belirgin majör alerjen içermez; kullanılan ürün etiketlerini kontrol edin",
     nutritionType: "Vejetaryen",
     ingredients: [
       "300 g haşlanmış nohut",
@@ -833,7 +836,6 @@ export const recipes: Recipe[] = [
     calculationNote:
       "Yaklaşık değerler kullanılan zeytinyağı miktarına ve porsiyonlamaya göre değişir.",
   },
-
 ];
 
 export const recipeCategories = [

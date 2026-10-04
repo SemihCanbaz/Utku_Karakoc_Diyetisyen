@@ -11,24 +11,33 @@
     "test": "node --experimental-strip-types scripts/test-calculations.mjs",
     "check:site": "node scripts/check-site.mjs",
     "check:release": "node scripts/check-release.mjs",
-    "check:content": "node --experimental-strip-types scripts/check-content.mjs"
+    "check:content": "node --experimental-strip-types scripts/check-content.mjs",
+    "seed:recipes": "node --env-file=.env.local --experimental-strip-types scripts/seed-recipes.mjs",
+    "test:portal": "node --experimental-strip-types scripts/test-portal-validation.mjs && node scripts/test-portal-rls.mjs && node --experimental-strip-types scripts/test-portal-workflow.mjs",
+    "check:portal": "node scripts/check-portal.mjs"
   },
   "dependencies": {
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.117.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.43.0",
     "lucide-react": "^0.483.0",
-    "next": "^16.0.0",
+    "next": "^16.3.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^2.3.0"
+    "server-only": "^0.0.1",
+    "sharp": "^0.35.5",
+    "tailwind-merge": "^2.3.0",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.6.1",
     "eslint": "^9",
-    "eslint-config-next": "^16.0.0",
+    "eslint-config-next": "^16.3.6",
     "postcss": "^8",
     "prettier": "^3.9.8",
     "tailwindcss": "^3.4.1",

@@ -3,8 +3,9 @@ import { useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
 import { RecipeCard } from "./recipe-card";
 import { AnimatedSection } from "@/components/shared/animated-section";
-import { recipes, recipeCategories } from "@/lib/recipes";
-export function RecipeLibrary() {
+import type { Recipe } from "@/lib/recipes";
+export function RecipeLibrary({ recipes }: { recipes: Recipe[] }) {
+  const recipeCategories = ["Tümü", ...new Set(recipes.map(r=>r.category))];
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Tümü");
   const matches = useMemo(() => {
@@ -17,7 +18,7 @@ export function RecipeLibrary() {
           .toLocaleLowerCase("tr-TR")
           .includes(term),
     );
-  }, [query, category]);
+  }, [query, category, recipes]);
   return (
     <div className="container recipe-library" id="tarif-listesi">
       <div className="library-toolbar">

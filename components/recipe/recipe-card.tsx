@@ -13,7 +13,7 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
           quality={85}
           sizes="(max-width:767px) 90vw, (max-width:1099px) 45vw, 380px"
         />
-        <span className="recipe-card-category">{recipe.category}</span>
+        <span className="recipe-card-category">{recipe.tags.includes("Şef Tarifinden Uyarlama") ? "Şef tarifinden uyarlama" : recipe.category}</span>
       </div>
       <div className="recipe-card-content">
         <h3>{recipe.title}</h3>

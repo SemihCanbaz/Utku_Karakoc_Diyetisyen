@@ -23,13 +23,13 @@ export function AnimatedSection({
     const animation = animate(
       scope.current,
       {
-        opacity: [0.25, 1],
-        y: type === "fade-up" ? [24, 0] : [0, 0],
-        scale: type === "scale-up" ? [0.985, 1] : [1, 1],
+        opacity: [1, 1],
+        y: type === "fade-up" ? [14, 0] : [0, 0],
+        scale: type === "scale-up" ? [0.993, 1] : [1, 1],
       },
       {
-        duration: 0.65,
-        delay: Math.min(delay, 0.24),
+        duration: 0.5,
+        delay: Math.min(delay, 0.12),
         ease: [0.22, 1, 0.36, 1],
       },
     );

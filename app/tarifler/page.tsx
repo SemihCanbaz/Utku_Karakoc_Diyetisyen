@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Clock3 } from "lucide-react";
-import { recipes } from "@/lib/recipes";
+import { getPublicRecipes } from "@/lib/recipe-data";
+export const revalidate = 60;
 import { RecipeLibrary } from "@/components/recipe/recipe-library";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata(
@@ -9,7 +10,8 @@ export const metadata = pageMetadata(
   "Porsiyon, süre, malzeme listesi ve yaklaşık besin değerleriyle günlük sofranıza ilham veren uygulanabilir tarifler.",
   "/tarifler",
 );
-export default function Recipes() {
+export default async function Recipes() {
+  const recipes = await getPublicRecipes();
   const featured = recipes.find((r) => r.featured) || recipes[0];
   return (
     <>
@@ -26,7 +28,7 @@ export default function Recipes() {
           keşfedin.
         </p>
       </div>
-      <section className="container">
+      {featured && <section className="container">
         <div className="featured-recipe">
           <div className="featured-photo">
            <Image
@@ -37,7 +39,7 @@ export default function Recipes() {
   quality={90}
   sizes="(max-width:767px) 90vw, 650px"
 />
-            <span>EDİTÖRDEN BİR SEÇİM</span>
+            <span>{featured.tags.includes("Şef Tarifinden Uyarlama") ? "ŞEF TARİFİNDEN UYARLAMA" : "MUTFAKTAN BİR SEÇİM"}</span>
           </div>
           <div className="featured-copy">
             <p className="eyebrow">
@@ -51,15 +53,15 @@ export default function Recipes() {
                 {featured.totalTime}
               </span>
               <span>{featured.servings}</span>
-              <span>≈ {featured.calories} kcal / porsiyon</span>
+              {featured.calories != null && <span>≈ {featured.calories} kcal / porsiyon</span>}
             </div>
             <Link className="action" href={"/tarifler/" + featured.slug}>
               Tarifi İncele <ArrowUpRight size={17} />
             </Link>
           </div>
         </div>
-      </section>
-      <RecipeLibrary />
+      </section>}
+      <RecipeLibrary recipes={recipes} />
     </>
   );
 }

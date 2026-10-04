@@ -1,3 +1,4 @@
+import { SiteChrome } from "@/components/portal/site-chrome";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -50,12 +51,7 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Ana içeriğe geç
         </a>
-        <Header />
-        <main id="main-content" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
-        <QuickContact />
+        <SiteChrome header={<Header />} footer={<Footer />} contact={<QuickContact />}>{children}</SiteChrome>
       </body>
     </html>
   );

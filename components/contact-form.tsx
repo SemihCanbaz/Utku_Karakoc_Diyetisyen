@@ -79,7 +79,7 @@ export function ContactForm() {
         <label className="field"><span>Görüşme konusu</span><select value={values.topic} onChange={(e) => update({ topic: e.target.value })}><option>Online danışmanlık</option><option>Kilo yönetimi</option><option>Sporcu beslenmesi</option><option>Klinik beslenme</option><option>Kurumsal danışmanlık</option><option>Diğer</option></select></label>
         <label className="field"><span>Paylaşmak istediğiniz kısa not <small>(isteğe bağlı)</small></span><textarea rows={4} maxLength={1000} value={values.message} onChange={(e) => update({ message: e.target.value })} placeholder="Günlük düzeniniz veya görüşme beklentiniz…" /></label>
         <label className="contact-honeypot" aria-hidden="true"><span>Web sitesi</span><input tabIndex={-1} autoComplete="off" value={values.website} onChange={(e) => update({ website: e.target.value })} /></label>
-        <p className="form-privacy">Form bilgileri yalnızca görüşme talebinizi iletmek amacıyla kullanılır. Tahlil, tanı veya ayrıntılı sağlık bilgisi paylaşmayın. <Link href="/gizlilik">Veri kullanımı hakkında</Link></p>
+        <p className="form-privacy">Form bilgileri yalnızca görüşme talebinizi iletmek amacıyla kullanılır. Tahlil, tanı veya ayrıntılı sağlık bilgisi paylaşmayın. <Link href="/kvkk">Aydınlatma metni</Link> · <Link href="/gizlilik">Gizlilik politikası</Link></p>
         <button className="action w-full" disabled={sending}>{sending ? <><LoaderCircle className="contact-spinner" size={17} /> İletiliyor…</> : <><Mail size={17} /> Görüşme Talebini İlet <ArrowUpRight size={17} /></>}</button>
         {status && <div className="contact-result" role="status"><Check size={18} /><p>{status}</p></div>}
         {prepared && mailto && (

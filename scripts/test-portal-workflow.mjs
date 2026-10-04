@@ -1,0 +1,15 @@
+import assert from "node:assert/strict";
+import { addDays, followUps, paginate } from "../lib/portal/workflow.ts";
+assert.equal(addDays("2028-02-28",1),"2028-02-29");
+assert.equal(addDays("2026-12-31",1),"2027-01-01");
+const clients=[{id:"a",first_name:"Ada",last_name:"Test",status:"active"},{id:"b",first_name:"Pasif",last_name:"Test",status:"passive"}];
+const current=[{client_id:"a",status:"published",start_date:"2026-10-01",end_date:"2026-10-04"}];
+assert.equal(followUps(clients,current,[{client_id:"a",measurement_date:"2026-09-20"}],"2026-10-04").length,0);
+assert.equal(followUps(clients,current,[{client_id:"a",measurement_date:"2026-09-19"}],"2026-10-04").length,1);
+assert.equal(followUps(clients,[{...current[0],status:"draft"}],[],"2026-10-04").length,2);
+assert.equal(followUps(clients,[{...current[0],start_date:"2026-10-05"}],[{client_id:"a",measurement_date:"2026-10-05"}],"2026-10-04").length,2);
+assert.equal(paginate([1,2,3],"999",2).page,2);
+assert.deepEqual(paginate([1,2,3],"2",2).rows,[3]);
+for(const bad of ["NaN","-1","1.5","0"]) assert.equal(paginate([1,2],bad).page,1);
+assert.deepEqual(paginate([],"99"),{rows:[],page:1,pages:1,total:0});
+console.log("PASS: follow-up date boundaries, passive clients, drafts, future records and pagination.");
