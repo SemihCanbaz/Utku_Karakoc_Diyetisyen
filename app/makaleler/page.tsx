@@ -1,6 +1,6 @@
 import { BookOpenText, ShieldCheck } from "lucide-react";
 import { ArticleCard } from "@/components/articles/article-card";
-import { articles } from "@/lib/articles";
+import { getPublicArticles } from "@/lib/article-data";
 import { jsonLd, pageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
 
@@ -10,7 +10,9 @@ export const metadata = pageMetadata(
   "/makaleler",
 );
 
-export default function ArticlesPage() {
+export const revalidate = 60;
+export default async function ArticlesPage() {
+  const articles = await getPublicArticles();
   return (
     <>
       <script

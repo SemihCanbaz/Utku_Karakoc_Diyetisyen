@@ -1,5 +1,5 @@
 "use client";
-import { useState, useTransition, useRef, useEffect } from "react";
+import { useState, useTransition, useRef, useEffect, useId } from "react";
 import { useRouter } from "next/navigation";
 import type {
   ActionResult,
@@ -15,6 +15,8 @@ import {
   deleteMeasurement,
   savePlan,
   duplicatePlan,
+  deletePlan,
+  deleteAppointment,
   saveAppointment,
   inviteClient,
 } from "@/lib/portal/actions";
@@ -82,6 +84,12 @@ export function DuplicatePlanButton({ id }: { id: string }) {
       action={() => duplicatePlan(id)}
     />
   );
+}
+export function DeletePlanButton({ id, title }: { id: string; title: string }) {
+  return <ConfirmButton label="Planı sil" title="Bu plan silinsin mi?" description={`“${title}” kalıcı olarak kaldırılacak ve danışan hesabında görünmeyecek. Saklamak isterseniz yayın durumunu Arşiv olarak değiştirebilirsiniz.`} action={() => deletePlan(id)} />;
+}
+export function DeleteAppointmentButton({ id }: { id: string }) {
+  return <ConfirmButton label="Randevuyu sil" title="Randevu silinsin mi?" description="Yanlış oluşturulan bu kayıt kalıcı olarak kaldırılacak. Görüşme geçmişini korumak için durumunu İptal olarak değiştirebilirsiniz." action={() => deleteAppointment(id)} />;
 }
 export function EditForm({
   children,
@@ -169,6 +177,7 @@ export function ConfirmButton({
   description: string;
   action: () => Promise<ActionResult>;
 }) {
+  const titleId = useId();
   const dialog = useRef<HTMLDialogElement>(null),
     [pending, start] = useTransition(),
     [result, setResult] = useState<ActionResult>({});
@@ -182,8 +191,8 @@ export function ConfirmButton({
       >
         {label}
       </button>
-      <dialog ref={dialog} className="portal-dialog">
-        <h2>{title}</h2>
+      <dialog ref={dialog} className="portal-dialog" aria-labelledby={titleId}>
+        <h2 id={titleId}>{title}</h2>
         <p>{description}</p>
         <p
           role="status"
@@ -224,7 +233,8 @@ export function ConfirmButton({
     </>
   );
 }
-export function InviteButton({ id }: { id: string }) {
+export function InviteButton({ id, linked = false }: { id: string; linked?: boolean }) {
+  const router = useRouter();
   const [result, setResult] = useState<ActionResult>({}),
     [pending, start] = useTransition();
   return (
@@ -236,14 +246,16 @@ export function InviteButton({ id }: { id: string }) {
         onClick={() =>
           start(async () => {
             try {
-              setResult(await inviteClient(id));
+              const response = await inviteClient(id);
+              setResult(response);
+              if (response.success) router.refresh();
             } catch {
               setResult({ error: "Davet oluşturulamadı." });
             }
           })
         }
       >
-        {pending ? "Davet hazırlanıyor…" : "Danışan hesabı için davet gönder"}
+        {pending ? "Bağlantı hazırlanıyor…" : linked ? "Şifre belirleme bağlantısını yenile" : "Danışanı portala davet et"}
       </button>
       <p
         role="status"

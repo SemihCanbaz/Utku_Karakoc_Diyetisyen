@@ -21,7 +21,7 @@ import { guides } from "@/lib/guides";
 import { GuideCard } from "@/components/guides/guide-card";
 import { ArticleCard } from "@/components/articles/article-card";
 import { ServiceCard } from "@/components/services/service-card";
-import { articles } from "@/lib/articles";
+import { getPublicArticles } from "@/lib/article-data";
 import { services } from "@/lib/services";
 import { tools } from "@/lib/tools";
 import { siteConfig } from "@/lib/site-config";
@@ -39,10 +39,10 @@ const process = [
   ["Güncelleme", "Değişen ihtiyaçlarınıza göre planı uyarlayalım."],
 ];
 export default async function Home() {
-  const recipes = await getPublicRecipes();
+  const [recipes, articles] = await Promise.all([getPublicRecipes(), getPublicArticles()]);
   const featuredRecipes = [
-    ...recipes.filter((r) => r.featured),
-    ...recipes.filter((r) => !r.featured),
+    ...recipes.filter((r) => ["citir-tavuklu-taco", "firinda-levrek-ve-renkli-sebzeler", "patates-puresi-yataginda-istiridye-mantari", "peynirli-hindi-fumeli-kahvalti-tabagi"].includes(r.slug)),
+    ...recipes.filter((r) => !["citir-tavuklu-taco", "firinda-levrek-ve-renkli-sebzeler", "patates-puresi-yataginda-istiridye-mantari", "peynirli-hindi-fumeli-kahvalti-tabagi"].includes(r.slug)),
   ].slice(0, 4);
   return (
     <>
@@ -118,20 +118,20 @@ export default async function Home() {
             <div className="hero-visual">
               <div className="hero-photo">
                 <Image
-                  src="/images/home-hero.webp"
-                  alt="Sebzeler, tahıllar ve protein kaynaklarıyla hazırlanmış renkli öğün tabakları"
+                  src="/images/recipes/citir-tavuklu-taco.webp"
+                  alt="Utku Karakoç’un mutfağından mor lahana ve yoğurtlu sosla çıtır tavuklu taco"
                   fill
                   preload
                   quality={90}
-                  sizes="(max-width:767px) 140vw, 900px"
+                  sizes="(max-width:767px) 100vw, 50vw"
                 />
               </div>
               <div className="hero-image-label">
                 <Leaf />
                 <span>
-                  DOĞAL BİR
+                  MUTFAĞIMDAN
                   <br />
-                  DENGE
+                  SOFRANIZA
                 </span>
               </div>
               <div className="hero-image-caption">
@@ -177,11 +177,11 @@ export default async function Home() {
           <AnimatedSection>
             <div className="approach-image">
               <Image
-                src="/images/home-philosophy.webp"
-                alt="Taze meyvelerle hazırlanmış renkli bir sofra"
+                src="/images/recipes/peynirli-hindi-fumeli-kahvalti-tabagi.webp"
+                alt="Omlet, beyaz peynir, domates ve zeytinle hazırlanmış gerçek kahvaltı tabağı"
                 fill
                 quality={90}
-                sizes="(max-width:767px) 140vw, 900px"
+                sizes="(max-width:767px) 100vw, 50vw"
               />
             </div>
             <div className="approach-caption">

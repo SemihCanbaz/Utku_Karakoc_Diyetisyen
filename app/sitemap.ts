@@ -3,12 +3,12 @@ import { siteConfig } from "@/lib/site-config";
 import { getPublicRecipes } from "@/lib/recipe-data";
 export const revalidate = 60;
 import { guides } from "@/lib/guides";
-import { articles } from "@/lib/articles";
+import { getPublicArticles } from "@/lib/article-data";
 import { services } from "@/lib/services";
 import { tools } from "@/lib/tools";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!siteConfig.allowIndexing) return [];
-  const recipes = await getPublicRecipes();
+  const [recipes, articles] = await Promise.all([getPublicRecipes(), getPublicArticles()]);
   return [
     "",
     "/hakkimda",

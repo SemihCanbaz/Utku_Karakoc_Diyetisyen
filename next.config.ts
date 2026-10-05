@@ -11,6 +11,7 @@ const config: NextConfig = {
             "/storage/v1/object/public/recipe-images/**",
             process.env.NEXT_PUBLIC_SUPABASE_URL,
           ),
+          new URL("/storage/v1/object/public/article-images/**", process.env.NEXT_PUBLIC_SUPABASE_URL),
         ]
       : [],
     formats: ["image/avif", "image/webp"],

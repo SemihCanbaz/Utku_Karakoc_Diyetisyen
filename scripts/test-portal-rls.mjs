@@ -32,6 +32,8 @@ await db.exec([
 ].join("\n"));
 const backupMigration=readFileSync('supabase/migrations/20261003232738_portal_backup_admin_and_private_helpers.sql','utf8');
 await db.exec(backupMigration);await db.exec(backupMigration);
+await db.exec(readFileSync('supabase/migrations/20261005195744_articles_and_portal_management.sql','utf8'));
+await db.exec("INSERT INTO public.articles(slug,title,category,description,intro,status,deleted_at) VALUES('public','Public','Test','Description','Intro','published',null),('draft','Draft','Test','Description','Intro','draft',null),('deleted','Deleted','Test','Description','Intro','published',now())");
 let tests=0;
 async function as(role,id=""){await db.exec("RESET ROLE; SELECT set_config('request.jwt.claim.sub','"+id+"',false); SET ROLE "+role+";");}
 async function count(table,expected,where=""){const {rows}=await db.query("SELECT count(*)::int AS n FROM public."+table+" "+where);assert.equal(rows[0].n,expected,table+" "+where);tests++;}
@@ -69,5 +71,19 @@ await db.exec("RESET ROLE; INSERT INTO auth.users VALUES('10000000-0000-4000-800
 await denied("INSERT INTO public.profiles(auth_user_id,role,first_name,last_name,admin_slot) VALUES('10000000-0000-4000-8000-000000000005','admin','Third','Admin',3)",'23514');
 await denied("INSERT INTO public.profiles(auth_user_id,role,first_name,last_name,admin_slot) VALUES('10000000-0000-4000-8000-000000000005','admin','Third','Admin',2)",'23505');
 await as('anon');await denied('SELECT private.is_admin()');
+await count('articles',1);
+await denied("INSERT INTO public.articles(slug,title,category,description,intro) VALUES('attack','Attack','Test','Desc','Intro')");
+await as('authenticated',b);await count('articles',1);
+await denied("INSERT INTO public.articles(slug,title,category,description,intro) VALUES('attack','Attack','Test','Desc','Intro')");
+await denied("INSERT INTO storage.objects(bucket_id,name) VALUES('article-images','attack.webp')");
+for (const sql of ["UPDATE public.articles SET title='Attack' RETURNING id", "DELETE FROM public.articles RETURNING id", "DELETE FROM public.diet_plans RETURNING id", "DELETE FROM public.appointments RETURNING id"]) {
+ const result=await db.query(sql);assert.equal(result.rows.length,0);tests++;
+}
+await as('authenticated',admin);await count('articles',3);
+await db.exec("INSERT INTO public.articles(slug,title,category,description,intro) VALUES('new','New','Test','Desc','Intro'); UPDATE public.articles SET title='Updated' WHERE slug='new'; INSERT INTO storage.objects(bucket_id,name) VALUES('article-images','cover.webp')");tests++;
+const removedPlan=await db.query("DELETE FROM public.diet_plans WHERE title='A draft' RETURNING id");assert.equal(removedPlan.rows.length,1);tests++;
+const removedAppointment=await db.query("DELETE FROM public.appointments WHERE status='cancelled' RETURNING id");assert.equal(removedAppointment.rows.length,1);tests++;
+await db.exec("UPDATE public.articles SET deleted_at=now() WHERE slug='public'");
+await as('anon');await count('articles',0);
 await db.close();
 console.log("PASS: "+tests+" PostgreSQL/RLS checks; two clients isolated, clients read-only, drafts hidden, passive accounts blocked, storage policy, appointment overlap, repeatable migration.");

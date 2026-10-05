@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowUpRight,
   BookOpen,
@@ -21,6 +22,7 @@ export function ArticleCard({ article }: { article: Article }) {
           : FlaskConical;
   return (
     <Link href={`/makaleler/${article.slug}`} className="article-card">
+      {article.coverImage && <Image className="article-card-photo" src={article.coverImage} alt={article.imageAlt || article.title} width={600} height={360} sizes="(max-width:767px) 90vw, 33vw" />}
       <div className="article-card-top">
         <span className="article-topic-icon">
           <Icon size={25} aria-hidden="true" />

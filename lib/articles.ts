@@ -6,6 +6,10 @@ export type ArticleSection = {
   bullets?: string[];
 };
 export type Article = {
+  coverImage?: string;
+  imageAlt?: string;
+  publishedAt?: string;
+  updatedAt?: string;
   slug: string;
   title: string;
   subtitle: string;

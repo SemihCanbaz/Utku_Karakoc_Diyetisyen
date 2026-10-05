@@ -49,6 +49,25 @@ export async function saveMeasurement(input: unknown, id?: string) {
 export async function savePlan(input: unknown, id?: string) {
   return save("diet_plans", planSchema, input, id);
 }
+export async function deletePlan(id: string): Promise<ActionResult> {
+  const { client } = await requireRole("admin");
+  if (!uuid.safeParse(id).success) return { error: "Geçersiz plan." };
+  const { data, error } = await client.from("diet_plans").delete().eq("id", id).select("id").maybeSingle();
+  if (error) return { error: errorText(error.code) };
+  if (!data) return { error: "Plan bulunamadı; başka bir oturumda kaldırılmış olabilir." };
+  revalidatePath("/admin", "layout");
+  revalidatePath("/danisan", "layout");
+  return { success: "Plan silindi." };
+}
+export async function deleteAppointment(id: string): Promise<ActionResult> {
+  const { client } = await requireRole("admin");
+  if (!uuid.safeParse(id).success) return { error: "Geçersiz randevu." };
+  const { data, error } = await client.from("appointments").delete().eq("id", id).select("id").maybeSingle();
+  if (error || !data) return { error: "Randevu silinemedi veya zaten kaldırılmış." };
+  revalidatePath("/admin", "layout");
+  revalidatePath("/danisan", "layout");
+  return { success: "Randevu silindi." };
+}
 export async function duplicatePlan(id: string): Promise<ActionResult> {
   const { client } = await requireRole("admin");
   if (!uuid.safeParse(id).success) return { error: "Geçersiz plan." };
@@ -105,23 +124,25 @@ export async function inviteClient(id: string): Promise<ActionResult> {
     return { error: "Önce aktif bir danışan kaydı oluşturun." };
   const { data: profile } = await client
     .from("profiles")
-    .select("id")
+    .select("id,auth_user_id")
     .eq("client_id", id)
     .maybeSingle();
-  if (profile)
-    return {
-      error:
-        "Bu danışanın hesabı zaten var. Giriş ekranındaki şifre yenileme kullanılabilir.",
-    };
   let service;
   try {
     service = adminDb();
   } catch {
     return { error: "Hesap daveti için sunucu anahtarı henüz ayarlanmadı." };
   }
+  const redirectTo = new URL("/sifre-belirle", process.env.NEXT_PUBLIC_SITE_URL || "https://utkukarakoc.com.tr").href;
+  if (profile) {
+    const { data: existing, error: lookupError } = await service.auth.admin.getUserById(profile.auth_user_id);
+    if (lookupError || existing.user?.email?.toLowerCase() !== person.email.toLowerCase()) return { error: "Giriş e-postası ile danışan dosyasındaki adres uyuşmuyor. Hesap adresini kontrol edin." };
+    const { error: resetError } = await service.auth.resetPasswordForEmail(person.email, { redirectTo });
+    return resetError ? { error: "Bağlantı gönderilemedi. Biraz sonra yeniden deneyin." } : { success: "Yeni şifre belirleme bağlantısı danışanın e-posta adresine gönderildi." };
+  }
   const { data, error } = await service.auth.admin.inviteUserByEmail(
     person.email,
-    { redirectTo: process.env.NEXT_PUBLIC_SITE_URL + "/sifre-belirle" },
+    { redirectTo },
   );
   if (error || !data.user)
     return {

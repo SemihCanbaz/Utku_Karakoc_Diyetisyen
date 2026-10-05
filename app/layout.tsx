@@ -1,4 +1,5 @@
 import { SiteChrome } from "@/components/portal/site-chrome";
+import { AuthLinkBridge } from "@/components/portal/auth-link-bridge";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -48,6 +49,7 @@ export default function RootLayout({
       <body
         className={playfair.variable + " " + manrope.variable + " font-sans"}
       >
+        <AuthLinkBridge />
         <a href="#main-content" className="skip-link">
           Ana içeriğe geç
         </a>

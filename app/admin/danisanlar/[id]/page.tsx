@@ -15,6 +15,8 @@ import {
   MeasurementEditor,
   PlanForm,
   DuplicatePlanButton,
+  DeletePlanButton,
+  DeleteAppointmentButton,
   InviteButton,
   AppointmentForm,
 } from "@/components/portal/forms";
@@ -83,6 +85,7 @@ export default async function Detail({
         <details className="portal-card portal-disclosure">
           <summary>+ Yeni haftalık plan</summary>
           <PlanForm
+            key={Math.max(0, ...rows.map((p) => p.week_number)) + 1}
             clientId={id}
             nextWeek={Math.max(0, ...rows.map((p) => p.week_number)) + 1}
           />
@@ -96,6 +99,7 @@ export default async function Detail({
             </summary>
             <PlanForm clientId={id} plan={plan} />
             <DuplicatePlanButton id={plan.id} />
+            <DeletePlanButton id={plan.id} title={`${plan.week_number}. hafta · ${plan.title}`} />
           </details>
         ))}
       </>
@@ -121,6 +125,7 @@ export default async function Detail({
               {r.appointment_type} <Badge status={r.status} />
             </summary>
             <AppointmentForm clients={[p]} value={r} />
+            <DeleteAppointmentButton id={r.id} />
           </details>
         ))}
       </>
@@ -141,9 +146,8 @@ export default async function Detail({
             Danışan giriş hesabı bağlı. E-posta değişikliği giriş adresini
             otomatik değiştirmez.
           </p>
-        ) : (
-          <InviteButton id={id} />
-        )}
+        ) : null}
+        <InviteButton id={id} linked={!!profile} />
       </section>
     );
   }

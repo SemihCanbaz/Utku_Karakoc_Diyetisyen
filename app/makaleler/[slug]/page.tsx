@@ -1,26 +1,28 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, BookOpen, Clock3, Quote } from "lucide-react";
-import { articles, getArticle } from "@/lib/articles";
+import Image from "next/image";
+import { getPublicArticles, getPublicArticle } from "@/lib/article-data";
 import { jsonLd, pageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
 
-export const dynamicParams = false;
+export const revalidate = 60;
+export const dynamicParams = true;
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return articles.map((article) => ({ slug: article.slug }));
+export async function generateStaticParams() {
+  return (await getPublicArticles()).map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
-  const article = getArticle((await params).slug);
+  const article = await getPublicArticle((await params).slug);
   return article
     ? pageMetadata(article.title, article.description, `/makaleler/${article.slug}`)
     : { title: "Makale bulunamadı" };
 }
 
 export default async function ArticleDetailPage({ params }: Props) {
-  const article = getArticle((await params).slug);
+  const article = await getPublicArticle((await params).slug);
   if (!article) notFound();
 
   const url = siteConfig.url + "/makaleler/" + article.slug;
@@ -37,6 +39,8 @@ export default async function ArticleDetailPage({ params }: Props) {
                 headline: article.title,
                 description: article.description,
                 articleSection: article.category,
+                datePublished: article.publishedAt, dateModified: article.updatedAt,
+                image: article.coverImage ? new URL(article.coverImage, siteConfig.url).href : undefined,
                 inLanguage: "tr-TR",
                 url,
                 author: {
@@ -74,6 +78,7 @@ export default async function ArticleDetailPage({ params }: Props) {
         </div>
       </div>
 
+      {article.coverImage && <div className="container article-cover"><Image src={article.coverImage} alt={article.imageAlt || article.title} width={1400} height={850} sizes="(max-width: 767px) 100vw, 1100px" quality={90}/></div>}
       <div className="container article-reading-layout">
         <aside className="article-toc">
           <p className="eyebrow">İÇİNDEKİLER</p>

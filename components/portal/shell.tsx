@@ -12,12 +12,14 @@ import {
   ClipboardList,
   ArrowUpRight,
   Search,
+  BookOpenText,
 } from "lucide-react";
 const adminLinks = [
   ["/admin", "Genel bakış", LayoutDashboard],
   ["/admin/danisanlar", "Danışanlar", Users],
   ["/admin/randevular", "Randevular", CalendarDays],
   ["/admin/tarifler", "Tarifler", Utensils],
+  ["/admin/makaleler", "Makaleler", BookOpenText],
 ] as const;
 const clientLinks = [
   ["/danisan", "Genel bakış", LayoutDashboard],

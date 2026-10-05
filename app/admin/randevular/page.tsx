@@ -3,7 +3,7 @@ import { requireRole } from "@/lib/portal/auth";
 import { date as dateSchema } from "@/lib/portal/validation";
 import { checked, today } from "@/lib/portal/queries";
 import type { Client, Appointment } from "@/lib/portal/types";
-import { AppointmentForm } from "@/components/portal/forms";
+import { AppointmentForm, DeleteAppointmentButton } from "@/components/portal/forms";
 import { PageTitle, AppointmentList, Badge } from "@/components/portal/display";
 export default async function Appointments({
   searchParams,
@@ -100,6 +100,7 @@ export default async function Appointments({
             {r.start_time.slice(0, 5)} · Düzenle <Badge status={r.status} />
           </summary>
           <AppointmentForm clients={clients} value={r} />
+          <DeleteAppointmentButton id={r.id} />
         </details>
       ))}
     </>
