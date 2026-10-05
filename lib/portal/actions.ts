@@ -168,6 +168,105 @@ export async function inviteClient(id: string): Promise<ActionResult> {
       "Hesap daveti e-posta sağlayıcısına iletildi. Danışan gelen bağlantıdan şifresini belirleyebilir.",
   };
 }
+export async function deleteClient(id: string): Promise<ActionResult> {
+  await requireRole("admin");
+
+  if (!uuid.safeParse(id).success) {
+    return { error: "Geçersiz danışan." };
+  }
+
+  let service;
+  try {
+    service = adminDb();
+  } catch {
+    return {
+      error: "Danışan silme işlemi için sunucu yetkisi bulunamadı.",
+    };
+  }
+
+  const { data: person, error: personError } = await service
+    .from("clients")
+    .select("id,first_name,last_name")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (personError || !person) {
+    return { error: "Danışan bulunamadı." };
+  }
+
+  const { data: profile, error: profileError } = await service
+    .from("profiles")
+    .select("id,auth_user_id")
+    .eq("client_id", id)
+    .maybeSingle();
+
+  if (profileError) {
+    return { error: "Danışanın giriş hesabı kontrol edilemedi." };
+  }
+
+  const relatedTables = [
+    "appointments",
+    "client_measurements",
+    "diet_plans",
+  ] as const;
+
+  for (const table of relatedTables) {
+    const { error } = await service.from(table).delete().eq("client_id", id);
+
+    if (error) {
+      return {
+        error: "Danışana bağlı kayıtlar silinirken işlem durduruldu.",
+      };
+    }
+  }
+
+  if (profile) {
+    const { error: profileDeleteError } = await service
+      .from("profiles")
+      .delete()
+      .eq("id", profile.id);
+
+    if (profileDeleteError) {
+      return {
+        error: "Danışanın portal hesabı kaldırılamadı.",
+      };
+    }
+  }
+
+  const { data: deletedClient, error: clientDeleteError } = await service
+    .from("clients")
+    .delete()
+    .eq("id", id)
+    .select("id")
+    .maybeSingle();
+
+  if (clientDeleteError || !deletedClient) {
+    return {
+      error: "Danışan kaydı silinemedi.",
+    };
+  }
+
+  if (profile?.auth_user_id) {
+    const { error: authDeleteError } =
+      await service.auth.admin.deleteUser(profile.auth_user_id);
+
+    if (authDeleteError) {
+      revalidatePath("/admin", "layout");
+
+      return {
+        success:
+          "Danışan ve bağlı kayıtları silindi. Eski giriş hesabı Auth tarafında ayrıca kontrol edilmeli.",
+      };
+    }
+  }
+
+  revalidatePath("/admin", "layout");
+  revalidatePath("/danisan", "layout");
+
+  return {
+    success: `${person.first_name} ${person.last_name} ve tüm bağlı kayıtları kalıcı olarak silindi.`,
+  };
+}
 function imagePath(url: string) {
   const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
   if (!base) return null;
