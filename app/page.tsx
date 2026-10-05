@@ -118,20 +118,20 @@ export default async function Home() {
             <div className="hero-visual">
               <div className="hero-photo">
                 <Image
-                  src="/images/recipes/citir-tavuklu-taco.webp"
-                  alt="Utku Karakoç’un mutfağından mor lahana ve yoğurtlu sosla çıtır tavuklu taco"
-                  fill
-                  preload
-                  quality={90}
-                  sizes="(max-width:767px) 100vw, 50vw"
-                />
+  src="/images/home/hero-beslenme.webp"
+  alt="Somon, avokado, nohut, yeşillikler ve sebzelerle hazırlanmış dengeli beslenme tabağı"
+  fill
+  preload
+  quality={92}
+  sizes="(max-width:767px) 100vw, 50vw"
+/>
               </div>
               <div className="hero-image-label">
                 <Leaf />
                 <span>
-                  MUTFAĞIMDAN
+                  DENGELİ
                   <br />
-                  SOFRANIZA
+                  SOFRALAR
                 </span>
               </div>
               <div className="hero-image-caption">

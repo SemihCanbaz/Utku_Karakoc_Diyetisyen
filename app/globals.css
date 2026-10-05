@@ -4252,3 +4252,106 @@ svg.lucide {
 .portal-article-preview p {margin:14px 0}
 .portal-article-preview ul {padding-left:24px;list-style:disc}
 @media(prefers-reduced-motion:reduce){.auth-link-loader{animation:none;border-color:#39583e}.auth-link-overlay{scroll-behavior:auto}}
+
+/* =========================================================
+   SEMİH CANBAZ — DEVELOPER SIGNATURE
+   ========================================================= */
+
+.footer-bottom {
+  align-items: center;
+}
+
+.developer-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  flex-shrink: 0;
+  color: #f5efdf;
+}
+
+.developer-credit-mark {
+  display: block;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  opacity: 0.96;
+}
+
+.developer-credit-divider {
+  display: block;
+  width: 1px;
+  height: 34px;
+  background: rgba(245, 239, 223, 0.24);
+}
+
+.developer-credit-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.developer-credit-copy small {
+  font-family:
+    var(--font-manrope),
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  font-size: 7px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  color: #f5efdf;
+  opacity: 0.58;
+}
+
+.developer-credit-copy strong {
+  font:
+    400 16px/1.1 var(--font-playfair),
+    Georgia,
+    serif;
+  letter-spacing: 0.015em;
+  color: #f5efdf;
+}
+
+.developer-credit {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+@media (hover: hover) {
+  .developer-credit:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+}
+
+@media (max-width: 767px) {
+  .footer-bottom {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .footer-bottom > span {
+    width: 100%;
+  }
+
+  .footer-legal-links {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .developer-credit {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+    padding-top: 19px;
+    border-top: 1px solid rgba(245, 239, 223, 0.1);
+  }
+
+  .developer-credit-copy {
+    text-align: left;
+  }
+}

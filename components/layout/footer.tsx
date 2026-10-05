@@ -1,22 +1,39 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Instagram, Linkedin, ArrowUpRight } from "lucide-react";
+import {
+  Instagram,
+  Linkedin,
+  ArrowUpRight,
+} from "lucide-react";
+
 import { Brand } from "@/components/shared/brand";
 import { siteConfig } from "@/lib/site-config";
+
 export default function Footer() {
-  const hasContact = siteConfig.email || siteConfig.phone || siteConfig.address;
+  const hasContact =
+    siteConfig.email ||
+    siteConfig.phone ||
+    siteConfig.address;
+
   return (
     <footer className="site-footer">
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <Link href="/" aria-label="Utku Karakoç ana sayfa">
+            <Link
+              href="/"
+              aria-label="Utku Karakoç ana sayfa"
+            >
               <Brand light />
             </Link>
+
             <p>
               İyi beslenmek, hayatın bir parçası.
               <br />
-              Size özgü, uygulanabilir, sürdürülebilir.
+              Size özgü, uygulanabilir,
+              sürdürülebilir.
             </p>
+
             <div className="social-links">
               {siteConfig.instagram && (
                 <a
@@ -28,6 +45,7 @@ export default function Footer() {
                   <Instagram />
                 </a>
               )}
+
               {siteConfig.linkedin && (
                 <a
                   href={siteConfig.linkedin}
@@ -40,59 +58,173 @@ export default function Footer() {
               )}
             </div>
           </div>
+
           <nav aria-label="Footer menüsü">
             <h2>KEŞFEDİN</h2>
-            <Link href="/hakkimda">Yaklaşımım</Link>
-            <Link href="/danismanlik">Danışmanlık alanları</Link>
-            <Link href="/vip-diyet">Online danışmanlık</Link>
-            <Link href="/randevu">Görüşme planlayın</Link>
-            <Link href="/iletisim">İletişim</Link>
-          </nav>
-          <nav aria-label="Kaynaklar">
-            <h2>GÜNLÜK YAŞAMA İLHAM</h2>
-            <Link href="/tarifler">Tarif kütüphanesi</Link>
-            <Link href="/makaleler">Bilimsel makaleler</Link>
-            <Link href="/hesaplayicilar">7 ücretsiz araç</Link>
-            <Link href="/beslenme-rehberi">Hastalıklarda beslenme</Link>
-            <Link href="/tarifler">
-              Sofranıza yeni fikirler <ArrowUpRight size={14} />
+
+            <Link href="/hakkimda">
+              Yaklaşımım
+            </Link>
+
+            <Link href="/danismanlik">
+              Danışmanlık alanları
+            </Link>
+
+            <Link href="/vip-diyet">
+              Online danışmanlık
+            </Link>
+
+            <Link href="/randevu">
+              Görüşme planlayın
+            </Link>
+
+            <Link href="/iletisim">
+              İletişim
             </Link>
           </nav>
+
+          <nav aria-label="Kaynaklar">
+            <h2>GÜNLÜK YAŞAMA İLHAM</h2>
+
+            <Link href="/tarifler">
+              Tarif kütüphanesi
+            </Link>
+
+            <Link href="/makaleler">
+              Bilimsel makaleler
+            </Link>
+
+            <Link href="/hesaplayicilar">
+              7 ücretsiz araç
+            </Link>
+
+            <Link href="/beslenme-rehberi">
+              Hastalıklarda beslenme
+            </Link>
+
+            <Link href="/tarifler">
+              Sofranıza yeni fikirler
+              <ArrowUpRight size={14} />
+            </Link>
+          </nav>
+
           <div className="footer-contact">
-            <h2>{hasContact ? "İLETİŞİM" : "TANIŞALIM"}</h2>
+            <h2>
+              {hasContact
+                ? "İLETİŞİM"
+                : "TANIŞALIM"}
+            </h2>
+
             {siteConfig.email && (
-              <a href={"mailto:" + siteConfig.email}>{siteConfig.email}</a>
+              <a
+                href={
+                  "mailto:" +
+                  siteConfig.email
+                }
+              >
+                {siteConfig.email}
+              </a>
             )}
+
             {siteConfig.phone && (
-              <a href={"tel:" + siteConfig.phone.replace(/[^+\d]/g, "")}>
+              <a
+                href={
+                  "tel:" +
+                  siteConfig.phone.replace(
+                    /[^+\d]/g,
+                    "",
+                  )
+                }
+              >
                 {siteConfig.phone}
               </a>
             )}
-            {siteConfig.address && <p>{siteConfig.address}</p>}
+
+            {siteConfig.address && (
+              <p>{siteConfig.address}</p>
+            )}
+
             {!hasContact && (
               <p>
-                Beslenme hedeflerinizi ve günlük düzeninizi birlikte konuşalım.
+                Beslenme hedeflerinizi ve
+                günlük düzeninizi birlikte
+                konuşalım.
               </p>
             )}
-            <Link href="/iletisim" className="footer-contact-link">
-              İlk adımı atın <ArrowUpRight size={16} />
+
+            <Link
+              href="/iletisim"
+              className="footer-contact-link"
+            >
+              İlk adımı atın
+              <ArrowUpRight size={16} />
             </Link>
           </div>
         </div>
+
         <p className="health-footer">
-          İçerikler ve hesaplamalar genel bilgilendirme amaçlıdır; kişisel
-          beslenme planı, tanı veya tedavi yerine geçmez.
+          İçerikler ve hesaplamalar genel
+          bilgilendirme amaçlıdır; kişisel
+          beslenme planı, tanı veya tedavi
+          yerine geçmez.
         </p>
+
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Utku Karakoç</span>
-          <div>
-            <Link href="/giris">Danışan girişi</Link>
-            <Link href="/gizlilik">Gizlilik</Link>
-            <Link href="/cerez-politikasi">Çerez politikası</Link>
-            <Link href="/kvkk">Kişisel veriler</Link>
-            <Link href="/kullanim-kosullari">Kullanım koşulları</Link>
+          <span>
+            © {new Date().getFullYear()} Utku
+            Karakoç
+          </span>
+
+          <div className="footer-legal-links">
+            <Link href="/giris">
+              Danışan girişi
+            </Link>
+
+            <Link href="/gizlilik">
+              Gizlilik
+            </Link>
+
+            <Link href="/cerez-politikasi">
+              Çerez politikası
+            </Link>
+
+            <Link href="/kvkk">
+              Kişisel veriler
+            </Link>
+
+            <Link href="/kullanim-kosullari">
+              Kullanım koşulları
+            </Link>
           </div>
-          <span>Beslenmeye özenle.</span>
+
+          <div
+            className="developer-credit"
+            aria-label="Designed and developed by Semih Canbaz"
+          >
+            <Image
+              src="/brand/sc-monogram.svg"
+              alt=""
+              width={46}
+              height={46}
+              className="developer-credit-mark"
+              unoptimized
+            />
+
+            <span
+              className="developer-credit-divider"
+              aria-hidden="true"
+            />
+
+            <span className="developer-credit-copy">
+              <small>
+                DESIGNED &amp; DEVELOPED BY
+              </small>
+
+              <strong>
+                Semih Canbaz
+              </strong>
+            </span>
+          </div>
         </div>
       </div>
     </footer>
